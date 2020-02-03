@@ -43,14 +43,14 @@ void bfs(int u) {
   d[u] = 0;
   p[u] = -1;
   while (!Q.empty()) {
-    u = Q.pop() {
-      for (int i = head[u]; i; i = e[i].x) {
-        if (!vis[e[i].t]) {
-          Q.push(e[i].t);
-          vis[e[i].t] = 1;
-          d[e[i].t] = d[u] + 1;
-          p[e[i].t] = u;
-        }
+    u = Q.front();
+    Q.pop();
+    for (int i = head[u]; i; i = e[i].x) {
+      if (!vis[e[i].t]) {
+        Q.push(e[i].t);
+        vis[e[i].t] = 1;
+        d[e[i].t] = d[u] + 1;
+        p[e[i].t] = u;
       }
     }
   }
@@ -168,14 +168,15 @@ while (队列不为空) {
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
+
 #define INF (1 << 29)
 int n, m;
 char grid[1001][1001];
 int dist[1001][1001][4];
-int vis[1001][1001][4];
 int fx[] = {1, -1, 0, 0};
 int fy[] = {0, 0, 1, -1};
 deque<int> q;
+
 void add_front(int x, int y, int dir, int d) {
   if (d < dist[x][y][dir]) {
     dist[x][y][dir] = d;
@@ -184,6 +185,7 @@ void add_front(int x, int y, int dir, int d) {
     q.push_front(x);
   }
 }
+
 void add_back(int x, int y, int dir, int d) {
   if (d < dist[x][y][dir]) {
     dist[x][y][dir] = d;
@@ -192,6 +194,7 @@ void add_back(int x, int y, int dir, int d) {
     q.push_back(dir);
   }
 }
+
 int main() {
   cin >> n >> m;
   for (int i = 0; i < n; i++) cin >> grid[i];
@@ -207,8 +210,6 @@ int main() {
     q.pop_front();
     q.pop_front();
     q.pop_front();
-    if (vis[x][y][dir]) continue;
-    vis[x][y][dir] = true;
     int d = dist[x][y][dir];
     int nx = x + fx[dir], ny = y + fy[dir];
     if (nx >= 0 && nx < n && ny >= 0 && ny < m) add_front(nx, ny, dir, d);
